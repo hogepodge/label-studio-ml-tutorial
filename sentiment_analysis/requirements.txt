@@ -1,0 +1,3 @@
+torch
+torchtext
+label-studio-ml
