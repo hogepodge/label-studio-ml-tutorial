@@ -23,7 +23,6 @@ class SentimentModel(LabelStudioMLBase):
         from_name, schema = list(self.parsed_label_config.items())[0]
         to_name = schema['to_name'][0]
         data_name = schema['inputs'][0]['value']
-        print(self.parsed_label_config.items())
         for task in tasks:
             # load the data and make a prediction with the model
             text = task['data'][data_name]
@@ -31,15 +30,19 @@ class SentimentModel(LabelStudioMLBase):
             print("%s\nprediction: %s probability: %s" % (text, predicted_class, predicted_prob))
 
             # for each task, return classification results in the form of "choices" pre-annotations
-            predictions.append({
+            prediction = {
+                'score': float(predicted_prob)
                 'result': [{
                     'from_name': from_name,
                     'to_name': to_name,
                     'type': 'choices',
-                    'value': {'choices': [self.label_map[predicted_class]]},
-                    # optionally you can include prediction scores that you can use to sort the tasks
-                    # and do active learning
-                }],
-                'score': float(predicted_prob)
-            })
+                    'value': {
+                        'choices': [
+                            self.label_map[predicted_class]
+                        ],
+                        'score': float(predicted_prob)
+                    },
+                }]
+            }
+            predictions.append(prediction)
         return predictions

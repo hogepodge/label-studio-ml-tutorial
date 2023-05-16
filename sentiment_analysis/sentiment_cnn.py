@@ -8,8 +8,7 @@ class SentimentCNN(nn.Module):
 
         # tokenizer setup
         self.tokenizer = torchtext.data.utils.get_tokenizer(tokenizer)
-
-
+        self.state_dict_name = state_dict
 
         if vocab:
             self.load_vocab(vocab)
@@ -39,6 +38,9 @@ class SentimentCNN(nn.Module):
         self.fc = nn.Linear(len(filter_sizes) * n_filters, output_dim)
         self.dropout = nn.Dropout(dropout_rate)
 
+        if self.state_dict_name:
+            self.load_state_dict(torch.load(self.state_dict_name))
+
     def load_vocab(self, vocab):
         # vocabulary parameters
         self.vocab = torch.load(vocab)
@@ -54,7 +56,7 @@ class SentimentCNN(nn.Module):
         prediction = self.fc(cat)
         return prediction
 
-    def predict_sentiment(self,text):
+    def predict_sentiment(self, text):
         tokens = self.tokenizer(text)
         ids = [self.vocab[t] for t in tokens]
         if len(ids) < self.min_length:

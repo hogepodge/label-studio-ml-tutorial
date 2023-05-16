@@ -40,7 +40,8 @@ with open(infile) as csvfile:
                     'value': {
                         'choices': [
                             label
-                        ]
+                        ],
+                        'score': float(score)
                     }
                 }]
             }
