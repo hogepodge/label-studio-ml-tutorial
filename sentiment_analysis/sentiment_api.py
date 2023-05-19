@@ -1,4 +1,5 @@
 from label_studio_ml.model import LabelStudioMLBase
+from sentiment_cnn import SentimentCNN
 
 import torch
 import torch.nn as nn
@@ -31,7 +32,8 @@ class SentimentModel(LabelStudioMLBase):
 
             # for each task, return classification results in the form of "choices" pre-annotations
             prediction = {
-                'score': float(predicted_prob)
+                'model_version': 'SentimentCNN 1',
+                'score': float(predicted_prob),
                 'result': [{
                     'from_name': from_name,
                     'to_name': to_name,
