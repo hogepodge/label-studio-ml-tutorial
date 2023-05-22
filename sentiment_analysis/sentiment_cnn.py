@@ -1,3 +1,6 @@
+# SentimentCNN class based on Sentiment Analysis tutorial by Ben Trevett
+# https://github.com/bentrevett/pytorch-sentiment-analysis
+
 import torch
 import torch.nn as nn
 import torchtext
